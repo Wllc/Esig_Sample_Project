@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<title>ESIGTarefas</title>
+</h:head>
+<h:body>
+	
+	<p:tag style="display:flex;justify-content:center;align-items:center;">GERENCIADOR DE TAREFAS</p:tag>
+	<br />
+	<h:form>
+		<h:panelGrid columns="6"  style="display:flex;justify-content:center;align-items:center;">
+			<p:outputLabel value="NÚMERO:" style="horizontal-align:center"/>
+			<p:inputText maxValue="1000" value="#{TarefaController.tarefa.id}" size="30" />
+			<br/>
+			<p:commandButton value="BUSCAR" update=":frmListagemAndamento:tbTarefasAndamento" actionListener="#{TarefaController.buscar}" />
+			<br />
+			<p:commandButton value="BUSCA GERAL" update=":frmListagemAndamento:tbTarefasAndamento" actionListener="#{TarefaController.buscarTarefas}" />
+		</h:panelGrid>
+
+		<br />
+		<h:panelGrid columns="3">
+			
+			
+		</h:panelGrid>
+
+	</h:form>
+
+
+	<h:form id = "frmListagemAndamento">
+		<p:dataTable id="tbTarefasAndamento" paginator="true" rows="10" var="obj" 
+			value="#{TarefaController.tarefas}">
+			<p:column headerText="NÚMERO" displayPriority="0">
+                <h:outputText value="#{obj.id}"/>
+            </p:column>
+
+			<p:column headerText="TÍTULO" displayPriority="1">
+                <h:outputText value="#{obj.titulo}"/>      
+            </p:column>
+            
+            <p:column headerText="RESPONSAVEL" displayPriority="2">
+                <h:outputText value="#{obj.responsavel}"/>      
+            </p:column>
+            
+            <p:column headerText="SITUAÇÃO" displayPriority="3">
+                <h:outputText value="#{obj.situacao}"/>      
+            </p:column>
+			
+			<p:column headerText="AÇÕES" displayPriority="4">
+				<p:commandButton value="✎" actionListener="#{TarefaController.prepararEditar}" oncomplete="PF('dlgEditarTarefa').show();" update=":frmEditarTarefa:pnEditarTarefa"/>
+				<p:commandButton value="🚫" action="#{TarefaController.remover}" update=":frmListagemAndamento:tbTarefasAndamento"/>
+				<p:commandButton value="✔" actionListener="#{TarefaController.completar}" update=":frmListagemAndamento:tbTarefasAndamento"/>
+			</p:column>
+		</p:dataTable>
+		
+		<h:panelGrid style="display:flex;justify-content:center;align-items:center;">
+			<p:commandButton value="NOVA TAREFA"  actionListener="#{TarefaController.prepararInserir}" oncomplete="PF('dlgNovaTarefa').show()" 
+				update=":frmNovaTarefa:pnNovaTarefa"/>
+		</h:panelGrid>
+	
+	</h:form>
+
+	<p:dialog widgetVar="dlgNovaTarefa" closable="true" draggable="false"
+		resizable="false" header="Nova Tarefa" modal="true" appendTo="@(body)">
+		<h:form id="frmNovaTarefa">
+			<h:panelGrid id="pnNovaTarefa" columns="2">
+				<p:outputLabel value="NÚMERO:" />
+				<p:outputLabel maxValue="1000" size="30" value="#{TarefaController.tarefa.id}"/>
+				
+				<p:outputLabel value="TÍTULO:" />
+				<p:inputText maxlength="30" size="30" value="#{TarefaController.tarefa.titulo}"/>
+
+				<p:outputLabel value="DESCRIÇÃO:" />
+				<p:inputTextarea cols="32" rows="5" value="#{TarefaController.tarefa.descricao}"/>
+				
+				<p:outputLabel value="RESPONSÁVEL:" />
+				<p:inputText maxlength="30" size="30" value="#{TarefaController.tarefa.responsavel}"/>
+
+				<p:outputLabel value="PRIORIDADE:" />
+				<p:selectOneMenu style="width:270px;" value="#{TarefaController.tarefa.prioridade}">
+					<f:selectItem itemLabel="Alta" itemValue="Alta" />
+					<f:selectItem itemLabel="Média" itemValue="Média" />
+					<f:selectItem itemLabel="Baixa" itemValue="Baixa" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Deadline:" />
+				<p:inputText id="button" showOn="button" value="#{TarefaController.tarefa.data}"/>
+				<br/>
+				<p:commandButton value="SALVAR" actionListener="#{TarefaController.inserir}" oncomplete="PF('dlgNovaTarefa').hide()"
+					update=":frmListagemAndamento:tbTarefasAndamento"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog widgetVar="dlgEditarTarefa" closable="true" draggable="false"
+		resizable="false" header="Editar Tarefa" modal="true" appendTo="@(body)">
+		<h:form id="frmEditarTarefa">
+			<h:panelGrid id="pnEditarTarefa" columns="2">
+				<p:outputLabel value="NÚMERO:" />
+				<p:outputLabel maxValue="1000" size="30" value="#{TarefaController.tarefa.id}"/>
+				
+				<p:outputLabel value="TÍTULO:" />
+				<p:inputText maxlength="30" size="30" value="#{TarefaController.tarefa.titulo}"/>
+
+				<p:outputLabel value="DESCRIÇÃO:" />
+				<p:inputTextarea cols="32" rows="5" value="#{TarefaController.tarefa.descricao}"/>
+				
+				<p:outputLabel value="RESPONSÁVEL:" />
+				<p:inputText maxlength="30" size="30" value="#{TarefaController.tarefa.responsavel}"/>
+
+				<p:outputLabel value="PRIORIDADE:" />
+				<p:selectOneMenu style="width:270px;" value="#{TarefaController.tarefa.prioridade}">
+					<f:selectItem itemLabel="Alta" itemValue="Alta" />
+					<f:selectItem itemLabel="Média" itemValue="Média" />
+					<f:selectItem itemLabel="Baixa" itemValue="Baixa" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Deadline:" />
+				<p:inputText id="button" showOn="button" value="#{TarefaController.tarefa.data}"/>
+				<br/>
+				<p:commandButton value="ATUALIZAR" actionListener="#{TarefaController.atualizar}" oncomplete="PF('dlgEditarTarefa').hide()"
+					update=":frmListagemAndamento:tbTarefasAndamento"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</html>
