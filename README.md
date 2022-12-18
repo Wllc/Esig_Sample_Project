@@ -8,8 +8,10 @@
 ###Itens implementados na aplicação Java Web:
 - JavaServer Faces (JSF);
 - PostgreSQL
+
 ###Adicionais
 - Maven
 - Primefaces
+
 ###Padrão de projeto utilizado:
 - MVC (Model-View-Controller)
