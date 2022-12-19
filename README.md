@@ -9,9 +9,10 @@
 - JavaServer Faces (JSF);
 - PostgreSQL
 
-### Adicionais
+### Informações adicionais
 - Maven
-- Primefaces
+- Primefaces 
+- Tomcat v9.0
 
 ### Padrão de projeto utilizado:
 - MVC (Model-View-Controller)
