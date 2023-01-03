@@ -113,4 +113,21 @@ public class TarefaDAO {
 			System.out.println("\nErro " + e);
 		}
 	}
+	
+	public static ArrayList<Tarefa> buscarSituacao(Tarefa tarefa){
+		Connection con = null;
+		ResultSet resultSet = null;
+		ArrayList<Tarefa> tarefas = new ArrayList<>();
+		try{
+		    con = Conexao.getConexao();
+		    resultSet = con.createStatement().executeQuery("select * from tarefas where situacao = '" + tarefa.getSituacao() + "'");
+		    while (resultSet.next()){
+			tarefas.add(new Tarefa(resultSet.getLong("id") ,resultSet.getString("titulo"), resultSet.getString("descricao"), resultSet.getString("responsavel"), resultSet.getString("prioridade"), resultSet.getString("data"), resultSet.getString("situacao")));
+		    }
+		    con.close();
+		}catch(SQLException e){
+		    System.out.println("\nErro: " + e);
+		}
+		return tarefas;
+	}
 }
