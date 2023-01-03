@@ -12,27 +12,31 @@
 	
 	<p:tag style="display:flex;justify-content:center;align-items:center;">GERENCIADOR DE TAREFAS</p:tag>
 	<br />
-	<h:form>
-		<h:panelGrid columns="6"  style="display:flex;justify-content:center;align-items:center;">
-			<p:outputLabel value="NÚMERO:" style="horizontal-align:center"/>
-			<p:inputText maxValue="1000" value="#{TarefaController.tarefa.id}" size="30" />
-			<br/>
-			<p:commandButton value="BUSCAR" update=":frmListagemAndamento:tbTarefasAndamento" actionListener="#{TarefaController.buscar}" />
-			<br />
-			<p:commandButton value="BUSCA GERAL" update=":frmListagemAndamento:tbTarefasAndamento" actionListener="#{TarefaController.buscarTarefas}" />
+	<h:form >
+		<h:panelGrid columns="9" style="display:flex;justify-content:center;align-items:center;">
+				<p:outputLabel value="Número:"/>
+				<p:inputText maxValue="1000" value="#{TarefaController.tarefa.id}" size="30" />	
+				
+				<br />
+				
+				<p:outputLabel value="Situação:" />
+					<p:selectOneMenu style="width:270px;" value="#{TarefaController.tarefa.situacao}">
+						<f:selectItem itemLabel="Selecione" itemValue="Selecione" />
+						<f:selectItem itemLabel="Em andamento" itemValue="em andamento" />
+						<f:selectItem itemLabel="Completada" itemValue="completada" />
+				</p:selectOneMenu>	
+					
+				<br />
+				
+				<p:commandButton value="BUSCAR" update=":frmListagemAndamento:tbTarefasAndamento" actionListener="#{TarefaController.buscar}" />
+				<br />
+				<p:commandButton value="BUSCA GERAL" update=":frmListagemAndamento:tbTarefasAndamento" actionListener="#{TarefaController.buscarTarefas}" />
 		</h:panelGrid>
-
-		<br />
-		<h:panelGrid columns="3">
-			
-			
-		</h:panelGrid>
-
 	</h:form>
 
 
 	<h:form id = "frmListagemAndamento">
-		<p:dataTable id="tbTarefasAndamento" paginator="true" rows="10" var="obj" 
+		<p:dataTable id="tbTarefasAndamento" paginator="true" rows="5" var="obj" 
 			value="#{TarefaController.tarefas}">
 			<p:column headerText="NÚMERO" displayPriority="0">
                 <h:outputText value="#{obj.id}"/>
@@ -49,8 +53,12 @@
             <p:column headerText="SITUAÇÃO" displayPriority="3">
                 <h:outputText value="#{obj.situacao}"/>      
             </p:column>
+            
+            <p:column headerText="PRIORIDADE" displayPriority="4">
+                <h:outputText value="#{obj.prioridade}"/>      
+            </p:column>
 			
-			<p:column headerText="AÇÕES" displayPriority="4">
+			<p:column headerText="AÇÕES" displayPriority="5">
 				<p:commandButton value="✎" actionListener="#{TarefaController.prepararEditar}" oncomplete="PF('dlgEditarTarefa').show();" update=":frmEditarTarefa:pnEditarTarefa"/>
 				<p:commandButton value="🚫" action="#{TarefaController.remover}" update=":frmListagemAndamento:tbTarefasAndamento"/>
 				<p:commandButton value="✔" actionListener="#{TarefaController.completar}" update=":frmListagemAndamento:tbTarefasAndamento"/>
